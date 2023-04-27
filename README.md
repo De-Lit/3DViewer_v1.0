@@ -31,7 +31,7 @@
     - Информацию о загруженной модели - название файла, кол-во вершин и ребер.
 
 <p align="center">
-<img src="./misc/viewer_2.png" alt="ncdu" width="300">
+<img src="./misc/viewer_2.png" alt="ncdu" width="200">
 </p>
 
 ## Настройки
@@ -41,7 +41,7 @@
  - Программа позволяет выбирать цвет фона
 
 <p align="center">
-<img src="./misc/viewer_3.png" alt="ncdu" width="300">
+<img src="./misc/viewer_3.png" alt="ncdu" width="200">
 </p>
 
  ## Запись
@@ -50,5 +50,5 @@
  - Программа позволяет по специальной кнопке записывать небольшие "скринкасты" - текущие пользовательские аффинные преобразования загруженного объекта в gif-анимацию (640x480, 10fps, 5s)
 
 <p align="center">
-<img src="./misc/viewer_4.png" alt="ncdu" width="300">
+<img src="./misc/viewer_4.png" alt="ncdu" width="200">
 </p>
