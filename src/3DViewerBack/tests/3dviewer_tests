@@ -1,0 +1,109 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "3DViewer.h"
+#include "./matrix/matrix.h"
+
+  #test create_matrix_1
+
+  int rows = 1, columns = 1;
+  matrix_t A;
+  ck_assert_int_eq(create_matrix(rows, columns, &A), 0);
+  A.matrix[0][0] = 0;
+  for (int i = 0; i < A.rows; i++) {
+    for (int j = 0; j < A.columns; j++)
+      ck_assert_double_eq_tol(A.matrix[i][j], 0.0, 1e-7);
+  }
+  remove_matrix(&A);
+
+  #test create_matrix_2
+
+  int rows = 0, columns = 1;
+  matrix_t A;
+  ck_assert_int_eq(create_matrix(rows, columns, &A), 1);
+
+  #test create_matrix_3
+
+  int rows = 3, columns = -2;
+  matrix_t A;
+  ck_assert_int_eq(create_matrix(rows, columns, &A), 1);
+
+  #test create_matrix_4
+
+  int rows = 99, columns = 99;
+  matrix_t A;
+  ck_assert_int_eq(create_matrix(rows, columns, &A), 0);
+  for (int i = 0; i < A.rows; i++) {
+    for (int j = 0; j < A.columns; j++)
+      ck_assert_double_eq_tol(A.matrix[i][j], 0.0, 1e-7);
+  }
+  remove_matrix(&A);
+
+  #test fill_struct_1
+    date_t *str;
+    char *file_dir = "./tests/materials/example";
+    int sign = fill_struct(file_dir, &str);
+    ck_assert_int_eq(str->count_of_vertexes, 3 + 1);
+    ck_assert_int_eq(str->matrix_3d->rows, 3 + 1);
+    ck_assert_int_eq(str->matrix_3d->columns, 3);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[0][0], 0.0, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[0][1], 0.0, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[0][2], 0.0, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[1][0], 0.0, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[1][1], 0.0, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[1][2], 0.0, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[2][0], 0.5, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[2][1], 0.5, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[2][2], 0.0, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[3][0], 0.0, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[3][1], 0.5, 1e-7);
+    ck_assert_double_eq_tol(str->matrix_3d->matrix[3][2], 0.0, 1e-7);
+    ck_assert_int_eq(str->count_of_facets, 1);
+    ck_assert_int_eq(str->polygons[0].numbers_of_vertexes_in_facets, 3);
+    ck_assert_double_eq_tol(str->polygons[0].vertexes[0], 1.0, 1e-7);
+    ck_assert_double_eq_tol(str->polygons[0].vertexes[1], 2.0, 1e-7);
+    ck_assert_double_eq_tol(str->polygons[0].vertexes[2], 3.0, 1e-7);
+    ck_assert_int_eq(sign, 0);
+  remove_struct(&str);
+
+  #test fill_struct_2
+    date_t *str;
+    char *file_dir = "./tests/materials/example_none.obj";
+    int sign = fill_struct(file_dir, &str);
+    ck_assert_int_eq(sign, 1);
+
+  #test scale_1
+    date_t *str;
+    char *file_dir = "./tests/materials/example";
+    int sign = fill_struct(file_dir, &str);
+    scale_struct(str->matrix_3d, 0.5, 0.5, 0.5);
+
+    ck_assert_int_eq(sign, 0);
+    remove_struct(&str);
+
+  #test scale_2
+    date_t *str;
+    char *file_dir = "./tests/materials/example";
+    int sign = fill_struct(file_dir, &str);
+    scale_struct(str->matrix_3d, 0.0, 0.0, 0.0);
+
+    ck_assert_int_eq(sign, 0);
+    remove_struct(&str);
+
+  #test translate_1
+    date_t *str;
+    char *file_dir = "./tests/materials/example";
+    int sign = fill_struct(file_dir, &str);
+    translate_struct(str->matrix_3d, 0.5, 0.5, 0.5);
+
+    ck_assert_int_eq(sign, 0);
+    remove_struct(&str);
+
+  #test rotate_1
+    date_t *str;
+    char *file_dir = "./tests/materials/example";
+    int sign = fill_struct(file_dir, &str);
+    rotate_struct(str->matrix_3d, 0.5, 0.5, 0.5);
+
+    ck_assert_int_eq(sign, 0);
+    remove_struct(&str);
